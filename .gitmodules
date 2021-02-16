@@ -1,3 +1,9 @@
 [submodule "gcp_io"]
 	path = gcp_io
 	url = git@gitlab.com:fantine/gcp-io.git
+[submodule "trainer"]
+	path = trainer
+	url = git@gitlab.com:fantine/trainer.git
+[submodule "hptuning"]
+	path = hptuning
+	url = git@gitlab.com:fantine/hptuning.git
