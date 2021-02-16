@@ -1,0 +1,50 @@
+max_trials: 100
+hyperparameters:
+  - name: learning_rate
+    min_value: 1e-4
+    max_value: 1e-2
+    scale: LOG10_SCALE
+  - name: batch_size
+    min_value: 32
+    max_value: 128
+    scale: LOG2_SCALE
+  - name: network_depth
+    min_value: 2
+    max_value: 5
+    scale: LINEAR_SCALE
+  - name: num_filters
+    min_value: 16
+    max_value: 32
+    scale: LOG2_SCALE
+  - name: filter_increase_mode
+    min_value: 1
+    max_value: 3
+    scale: LINEAR_SCALE
+  - name: filter_multiplier
+    min_value: 2
+    max_value: 8
+    scale: LOG2_SCALE
+  - name: activation
+    min_value: 0
+    max_value: 1
+    scale: LINEAR_SCALE
+  - name: downsampling
+    min_value: 0
+    max_value: 1
+    scale: LINEAR_SCALE
+  - name: batchnorm
+    min_value: 0
+    max_value: 1
+    scale: LINEAR_SCALE
+  - name: conv_dropout
+    min_value: 0.0
+    max_value: 0.2
+    scale: DECIMAL_SCALE
+  - name: dense_dropout
+    min_value: 0.0
+    max_value: 0.6
+    scale: DECIMAL_SCALE
+  - name: regularizer
+    min_value: 0
+    max_value: 2
+    scale: LINEAR_SCALE
