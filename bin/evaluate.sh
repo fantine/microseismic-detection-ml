@@ -46,7 +46,7 @@ module_name=trainer.evaluate
 echo 'Running ML job in the background.'
 echo "Logging to file: $log_file"
 python -m $module_name \
---ckpt=$ckpt \
+--job_dir=$ckpt \
 $MODULE_ARGS \
 --eval_file=$eval_file \
 > $log_file 2>&1 &
