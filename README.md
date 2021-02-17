@@ -6,7 +6,7 @@
 
 ### Update the submodules
 After cloning the repository, make sure to run the following commands to
-update the submodules.
+initialize and update the submodules.
 
 ```
 git submodule init
@@ -52,3 +52,26 @@ other models inside the folder for examples.
 - Reference your new model in `trainer/model/__init__.py`.
 - Set the `model` argument to your new model's name in your model configuration
 file `config/your_model_config.sh`.
+
+## Hyperparameter tuning
+
+The hyperparameters are tuned using bayesian optimization. 
+
+### Run a hyperparameter tuning job
+To tune the hyperparameters for a machine learning model, use the following
+command:
+```
+bin/tunehp.sh model_config dataset
+```
+
+- `model_config`: Name of ML model configuration to use. This should correspond 
+to a configuration file named `config/model_config.sh`.
+- `dataset`: Dataset identifier. Check the variables `datapath`, `train_file`,
+and `eval_file` in `bin/train.sh` to ensure that this maps to the correct input
+ data.
+
+### Define the domain for hyperparameter tuning
+
+You can define the domain to explore for hyperparameter tuning by creating a
+corresponding configuration file: `config/your_model_config_hptuning.yaml`. 
+Look at other hyperparameter tuning configuration files for examples.
