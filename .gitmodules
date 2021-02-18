@@ -7,3 +7,6 @@
 [submodule "hptuning"]
 	path = hptuning
 	url = git@gitlab.com:fantine/hptuning.git
+[submodule "plot_utils"]
+	path = plot_utils
+	url = git@gitlab.com:fantine/plot-utils.git
