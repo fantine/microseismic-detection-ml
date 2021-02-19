@@ -48,3 +48,7 @@ hyperparameters:
     min_value: 0
     max_value: 2
     scale: LINEAR_SCALE
+  - name: regularizer_weight
+    min_value: 1e-4
+    max_value: 1e-2
+    scale: LOG10_SCALE
