@@ -23,7 +23,7 @@ label=$4
 
 # Set path to input data
 datapath="/scr1/fantine/microseismic-detection-ml"
-test_file="${datapath}/streaming_data/${dataset}.npy"
+test_file="${datapath}/continuous_data/${dataset}.npy"
 ckpt="${datapath}/models/${job_id}/ckpt"
 
 # Check the ML model config file
@@ -51,5 +51,5 @@ echo "Logging to file: $log_file"
 python -m $module_name \
 --job_dir=$ckpt \
 $MODULE_ARGS \
---eval_file=$eval_file \
+--test_file=$test_file \
 > $log_file 2>&1 &
