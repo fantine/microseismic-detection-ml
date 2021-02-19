@@ -7,5 +7,5 @@ export MODULE_ARGS=" \
   --channels=1 \
   --tfrecord_height=712 \
   --tfrecord_width=196 \
-  --num_epochs=10 \
+  --num_epochs=100 \
 "
