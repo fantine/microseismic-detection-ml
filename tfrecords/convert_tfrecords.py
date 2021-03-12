@@ -238,7 +238,7 @@ def _set_logging(log_level: Text):
 
 
 def main():
-  params, _ = ArgParser().parse_known_args(sys.argv[1:])
+  params, _ = ArgumentParser().parse_known_args(sys.argv[1:])
   _set_logging(params.log_level.upper())
   convert_to_tfrecords(params)
 
