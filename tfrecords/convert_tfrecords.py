@@ -129,14 +129,19 @@ def convert_to_tfrecords(params):
 class ArgumentParser():
 
   def __init__(self):
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
+    config_parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        add_help=False)
+
+    config_parser.add_argument(
         '-c', '--config-file',
-        help='Configuration file.',
+        help='Parse script arguments from config file.',
         default=None,
-        metavar='FILE',
-    )
-    self._parser = argparse.ArgumentParser(parents=[parser])
+        metavar='FILE')
+
+    self._config_parser = config_parser
+
+    self._parser = argparse.ArgumentParser(parents=[config_parser])
 
   @staticmethod
   def _parse_config(items):
@@ -219,15 +224,16 @@ class ArgumentParser():
     )
 
   def parse_known_args(self, argv):
-    args, remaining_argv = self._parser.parse_known_args(argv)
+    args, remaining_argv = self._config_parser.parse_known_args(argv)
     if args.config_file:
       with open(args.config_file, 'r') as config:
         defaults = yaml.safe_load(config)
+      defaults['config_file'] = args.config_file
     else:
       defaults = dict()
-    # self._add_arguments(defaults=defaults)
-    # self._parser.set_defaults(**defaults)
-    remaining_argv += self._parse_config(defaults)
+    self._add_arguments(defaults=defaults)
+    self._parser.set_defaults(**defaults)
+
     return self._parser.parse_known_args(remaining_argv)
 
 
