@@ -99,7 +99,6 @@ def _get_datapath():
 
 def convert_to_tfrecords(params):
   datapath = _get_datapath()
-  print(datapath)
   manifest_file = os.path.join(datapath, params.manifest_file)
   if not os.path.exists(manifest_file):
     logging.info('Creating manifest file: %s', manifest_file)
@@ -110,7 +109,8 @@ def convert_to_tfrecords(params):
   file_list = read_manifest(manifest_file)
   file_shards = np.array_split(file_list, params.num_shards)
   file_suffix = _get_file_suffix(params.compression_type)
-  options = tf.io.TFRecordOptions(compression_type=params.compression_type)
+  options = tf.io.TFRecordOptions(
+      compression_type=params.compression_type.value)
   data_loader = DataLoader(params.min_val, params.max_val)
   output_file_prefix = os.path.join(datapath, params.output_file_prefix)
 
