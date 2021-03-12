@@ -1,5 +1,4 @@
 import argparse
-import configparser
 import enum
 import logging
 import os
@@ -8,6 +7,7 @@ import re
 import sys
 from typing import Text
 
+import numpy as np
 import tensorflow as tf
 import yaml
 
@@ -22,9 +22,6 @@ class CompressionType(enum.Enum):
   GZIP = 'GZIP'
   NONE = ''
 
-  def __str__(self):
-    return self.value
-
 def _float_feature(data):
   return tf.train.Feature(float_list=tf.train.FloatList(value=data.reshape(-1)))
 
@@ -37,7 +34,7 @@ _FILE_EXTENSION = {
 
 def create_tf_example(inputs, labels):
   feature_dict = {
-      'inputs': _float_feature(data),
+      'inputs': _float_feature(inputs),
       'labels': _float_feature(labels),
   }
   return tf.train.Example(features=tf.train.Features(feature=feature_dict))
@@ -56,14 +53,13 @@ class DataLoader():
   def _get_label(filename):
     if 'noise' in filename:
       return np.zeros((1,), dtype=np.float32)
-    else:
-      return np.ones((1,), dtype=np.float32)
+    return np.ones((1,), dtype=np.float32)
 
   def read(self, filename):
     inputs = np.float32(np.load(filename))
     if self.min_val != 0.0 or self.max_val != 1.0:
       inputs = self._clip_and_rescale(inputs)
-    labels = _get_label(filename)
+    labels = self._get_label(filename)
     return inputs, labels
 
 
@@ -106,7 +102,7 @@ def convert_to_tfrecords(params):
   manifest_file = os.path.join(datapath, params.manifest_file)
   if not os.path.exists(manifest_file):
     logging.info('Creating manifest file: %s', manifest_file)
-    _create_manifest(manifest_file, os.path.join(datapath, params.input_file_pattern))
+    create_manifest(manifest_file, os.path.join(datapath, params.input_file_pattern))
   else:
     logging.info('Using the existing manifest file: %s', manifest_file)
 
@@ -115,16 +111,16 @@ def convert_to_tfrecords(params):
   file_suffix = _get_file_suffix(params.compression_type)
   options = tf.io.TFRecordOptions(compression_type=params.compression_type)
   data_loader = DataLoader(params.min_val, params.max_val)
-  output_file_prefix = os.path.join(datapath, output_file_prefix)
+  output_file_prefix = os.path.join(datapath, params.output_file_prefix)
 
   for i, file_shard in enumerate(file_shards):
     tfrecord_file = '{}-{:04d}-of-{:04d}{}'.format(
         output_file_prefix, i, params.num_shards, file_suffix)
-    logging.info('Writing {}'.format(tfrecord_file))
+    logging.info('Writing %s', tfrecord_file)
     with tf.io.TFRecordWriter(tfrecord_file, options=options) as writer:
       for filename in file_shard:
         inputs, outputs = data_loader.read(filename)
-        tf_example = convert_to_tf_example(inputs, outputs)
+        tf_example = create_tf_example(inputs, outputs)
         writer.write(tf_example.SerializeToString())
 
 class ArgumentParser():
