@@ -16,12 +16,6 @@ random.seed(42)
 _DATAPATH_FILE = 'config/datapath.sh'
 
 
-_FILE_EXTENSION = {
-  CompressionType.GZIP = '.gz',
-  CompressionType.NONE = '',
-}
-
-
 class CompressionType(enum.Enum):
   GZIP = 'GZIP'
   NONE = ''
@@ -31,6 +25,12 @@ class CompressionType(enum.Enum):
 
 def _float_feature(data)
   return tf.train.Feature(float_list=tf.train.FloatList(value=data.reshape(-1)))
+
+
+_FILE_EXTENSION = {
+  CompressionType.GZIP = '.gz',
+  CompressionType.NONE = '',
+}
 
 
 def create_tf_example(inputs, labels):
