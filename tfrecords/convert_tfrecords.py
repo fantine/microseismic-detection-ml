@@ -23,7 +23,7 @@ class CompressionType(enum.Enum):
   def __str__(self):
     return self.value
 
-def _float_feature(data)
+def _float_feature(data):
   return tf.train.Feature(float_list=tf.train.FloatList(value=data.reshape(-1)))
 
 
