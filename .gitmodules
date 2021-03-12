@@ -2,7 +2,7 @@
 	path = gcp_io
 	url = git@gitlab.com:fantine/gcp-io.git
 [submodule "trainer"]
-	path = trainer
+	path = ml_framework
 	url = git@gitlab.com:fantine/trainer.git
 [submodule "hptuning"]
 	path = hptuning
