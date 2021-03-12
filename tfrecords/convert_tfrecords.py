@@ -93,8 +93,8 @@ def create_manifest(manifest_file, file_pattern, shuffle=True):
 def _get_datapath():
   regex_pattern = r'DATAPATH="(\S+)"'
   with open(_DATAPATH_FILE, 'r') as f:
-    datapath_text = f.readlines()
-  regex_match = re.match(regex_pattern, datapath_text)
+    datapath_text = f.read()
+  regex_match = re.search(regex_pattern, datapath_text)
   if regex_match:
     return regex_match.group(1)
   raise ValueError('Please set a correct datapath in {}'.format(_DATAPATH_FILE))
