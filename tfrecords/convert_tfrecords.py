@@ -198,7 +198,7 @@ class ArgumentParser():
         '--compression_type',
         help='File compression type.',
         type=CompressionType,
-        choices=List(CompressionType),
+        choices=list(CompressionType),
         default=CompressionType.GZIP,
     )
     parser.add_argument(
