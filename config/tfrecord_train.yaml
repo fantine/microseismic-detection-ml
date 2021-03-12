@@ -1,0 +1,7 @@
+manifest_file: tfrecords/manifests/baseline_train_manifest.txt
+output_file_prefix: tfrecords/baseline/train
+input_width: 712
+input_height: 196
+num_shards: 23
+min_val: -15.353061
+max_val: 15.353061
