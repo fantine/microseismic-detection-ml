@@ -82,6 +82,7 @@ def create_manifest(manifest_file, file_pattern, shuffle=True):
   file_list = _glob(file_pattern)
   if shuffle:
     random.shuffle(file_list)
+  os.makedirs(os.path.dirname(manifest_file), exist_ok=True)
   with open(manifest_file, 'w') as f:
     for filename in file_list:
       f.write(filename + '\n')
@@ -113,6 +114,7 @@ def convert_to_tfrecords(params):
   data_loader = DataLoader(params.min_val, params.max_val)
   output_file_prefix = os.path.join(datapath, params.output_file_prefix)
 
+  os.makedirs(os.path.dirname(output_file_prefix), exist_ok=True)
   for i, file_shard in enumerate(file_shards):
     tfrecord_file = '{}-{:04d}-of-{:04d}{}'.format(
         output_file_prefix, i, params.num_shards, file_suffix)
@@ -154,12 +156,12 @@ class ArgumentParser():
     parser.add_argument(
         '--input_file_pattern',
         help='Input data files.',
-        default=None,
+        default='',
     )
     parser.add_argument(
         '--output_file_prefix',
         help='Output file prefix.',
-        default='output',
+        default='tfrecords/',
     )
     parser.add_argument(
         '--input_height',
@@ -200,7 +202,7 @@ class ArgumentParser():
     parser.add_argument(
         '--manifest_file',
         help='Manifest file.',
-        default='manifest.txt',
+        default='tfrecords/manifests/manifest.txt',
     )
     parser.add_argument(
         '--log_level',
