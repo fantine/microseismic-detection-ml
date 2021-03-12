@@ -22,14 +22,18 @@ class CompressionType(enum.Enum):
   GZIP = 'GZIP'
   NONE = ''
 
-def _float_feature(data):
-  return tf.train.Feature(float_list=tf.train.FloatList(value=data.reshape(-1)))
-
 
 _FILE_EXTENSION = {
   CompressionType.GZIP: '.gz',
   CompressionType.NONE: '',
 }
+
+
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
+
+
+def _float_feature(data):
+  return tf.train.Feature(float_list=tf.train.FloatList(value=data.reshape(-1)))
 
 
 def create_tf_example(inputs, labels):
@@ -205,11 +209,6 @@ class ArgumentParser():
         default='tfrecords/manifests/manifest.txt',
     )
     parser.add_argument(
-        '--log_level',
-        help='Logging level.',
-        default='INFO',
-    )
-    parser.add_argument(
         '--min_val',
         help='Minimum value.',
         type=float,
@@ -236,16 +235,8 @@ class ArgumentParser():
     return self._parser.parse_known_args(remaining_argv)
 
 
-def _set_logging(log_level: Text):
-  """Sets the logging level to `log_level`."""
-  logger = tf.get_logger()
-  logger.setLevel(log_level)
-  return
-
-
 def main():
   params, _ = ArgumentParser().parse_known_args(sys.argv[1:])
-  _set_logging(params.log_level.upper())
   convert_to_tfrecords(params)
 
 
