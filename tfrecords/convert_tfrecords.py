@@ -139,7 +139,7 @@ class ArgumentParser():
     self._parser = argparse.ArgumentParser(parents=[parser])
 
   @staticmethod
-  def _parse_config_items(items):
+  def _parse_config(items):
     argv = []
     for k, v in items:
       argv.append('--{}'.format(k))
@@ -225,8 +225,9 @@ class ArgumentParser():
         defaults = yaml.safe_load(config)
     else:
       defaults = dict()
-    self._add_arguments(defaults=defaults)
-    self._parser.set_defaults(**defaults)
+    # self._add_arguments(defaults=defaults)
+    # self._parser.set_defaults(**defaults)
+    remaining_argv += self._parse_config(defaults)
     return self._parser.parse_known_args(remaining_argv)
 
 
