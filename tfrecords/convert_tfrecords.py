@@ -28,8 +28,8 @@ def _float_feature(data):
 
 
 _FILE_EXTENSION = {
-  CompressionType.GZIP = '.gz',
-  CompressionType.NONE = '',
+  CompressionType.GZIP: '.gz',
+  CompressionType.NONE: '',
 }
 
 
