@@ -1,5 +1,6 @@
 import argparse
 import configparser
+import enum
 import logging
 import os
 import random
