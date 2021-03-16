@@ -18,9 +18,9 @@ dataset=$2
 label=$3
 
 # Set path to input data
-datapath="/scr1/fantine/microseismic-detection-ml"
-train_file="${datapath}/tfrecords/${dataset}/train-*.tfrecord.gz"
-eval_file="${datapath}/tfrecords/${dataset}/eval-*.tfrecord.gz"
+. "config/datapath.sh"
+train_file="${DATAPATH}/tfrecords/${dataset}/train-*.tfrecord.gz"
+eval_file="${DATAPATH}/tfrecords/${dataset}/eval-*.tfrecord.gz"
 
 # Check the ML model config file
 if [ "$label" != "hptuning" ]; then
@@ -40,23 +40,22 @@ fi
 # Define the job name
 now=$(date +%Y%m%d_%H%M%S)
 job_name=job_${now}_${model_config}_${dataset}_${label}
-job_dir="${datapath}/models/${job_name}"
+job_dir="${DATAPATH}/models/${job_name}"
 log_file="log/${job_name}.log"
 
 # Set package and module name
-package_path=trainer/
-module_name=trainer.task
+package_path=ml_framework/
+module_name=ml_framework.train
 
 # Run the job
 if [ "$label" != "hptuning" ]; then
-  echo 'Running ML job in the background.'
+  echo 'Running ML job.'
   echo "Logging to file: $log_file"
   python -m $module_name \
   --job_dir=$job_dir \
   $MODULE_ARGS \
   --train_file=$train_file \
-  --eval_file=$eval_file \
-  > $log_file 2>&1 &
+  --eval_file=$eval_file 2>&1 | tee $log_file
 else # if this is a hyperparameter tuning job, run it in the foreground
   echo "Logging to file: $log_file"
   python -m $module_name \

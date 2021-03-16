@@ -22,9 +22,9 @@ job_id=$3
 label=$4
 
 # Set path to input data
-datapath="/scr1/fantine/microseismic-detection-ml"
-test_file="${datapath}/continuous_data/${dataset}.npy"
-ckpt="${datapath}/models/${job_id}/ckpt"
+. "config/datapath.sh"
+test_file="${DATAPATH}/continuous_data/${dataset}.npy"
+ckpt="${DATAPATH}/models/${job_id}/ckpt"
 
 # Check the ML model config file
 config_file=config/$model_config.sh
@@ -42,14 +42,13 @@ job_name=predict_${now}_${model_config}_${dataset}_${label}
 log_file="log/${job_name}.log"
 
 # Set package and module name
-package_path=trainer/
-module_name=trainer.predict
+package_path=ml_framework/
+module_name=ml_framework.predict
 
 # Run the job
-echo 'Running ML job in the background.'
+echo 'Running ML prediction.'
 echo "Logging to file: $log_file"
 python -m $module_name \
 --job_dir=$ckpt \
 $MODULE_ARGS \
---test_file=$test_file \
-> $log_file 2>&1 &
+--test_file=$test_file 2>&1 | tee $log_file
