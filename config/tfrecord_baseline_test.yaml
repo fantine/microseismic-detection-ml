@@ -1,0 +1,7 @@
+manifest_file: tfrecords/manifests/baseline_test_manifest.txt
+output_file_prefix: tfrecords/baseline/test
+input_width: 712
+input_height: 196
+num_shards: 4
+min_val: -15.353061
+max_val: 15.353061
