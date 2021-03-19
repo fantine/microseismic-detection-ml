@@ -31,14 +31,17 @@ _FILE_EXTENSION = {
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
 
 
-def _float_feature(data):
-  return tf.train.Feature(float_list=tf.train.FloatList(value=data.reshape(-1)))
+# def _float_feature(data):
+#   return tf.train.Feature(float_list=tf.train.FloatList(value=data.reshape(-1)))
+
+def _bytes_feature(data):
+  return tf.train.Feature(bytes_list=tf.train.BytesList(value=[data]))
 
 
 def create_tf_example(inputs, labels):
   feature_dict = {
-      'inputs': _float_feature(inputs),
-      'labels': _float_feature(labels),
+      'inputs': _bytes_feature(inputs.tobytes()),
+      'labels': _bytes_feature(labels.tobytes()),
   }
   return tf.train.Example(features=tf.train.Features(feature=feature_dict))
 
@@ -52,7 +55,7 @@ class DataLoader():
     data = np.clip(data, self.min_val, self.max_val)
     return np.divide((data - self.min_val), (self.max_val - self.min_val))
 
-  @staticmethod
+  @ staticmethod
   def _get_label(filename):
     if 'noise' in filename:
       return np.zeros((1,), dtype=np.float32)
@@ -149,7 +152,7 @@ class ArgumentParser():
 
     self._parser = argparse.ArgumentParser(parents=[config_parser])
 
-  @staticmethod
+  @ staticmethod
   def _parse_config(items):
     argv = []
     for k, v in items:
