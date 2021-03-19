@@ -1,16 +1,18 @@
 #!/bin/bash
 
-# Run a ML model training job
+# Run a ML model evaluation job
 #
-# e.g. bin/train.sh model_config dataset label
+# e.g. bin/evaluate.sh model_config dataset label
 #
 # @param {model_config} Name of ML model configuration to use.
 #            This should correspond to a configuration file named as follows:
 #            config/${model_config}.sh.
 # @param {dataset} Dataset identifier.
-#            Check the variables `datapath`, `train_file`, and `eval_file`,
-#            to ensure that this maps to the correct input data.
-# @param {job_id} Job name of the ML model to evaluate.
+#            Check the variable `eval_file` to make sure that this maps to the
+#            correct data.
+# @param {job_id} Job ID of the ML model to evaluate.
+#            Check the variable `ckpt` to make sure that this maps to the 
+#            correct ML model checkpoint.
 # @param {label} Optional label to add to the job name.
 
 # Get arguments
@@ -19,10 +21,17 @@ dataset=$2
 job_id=$3
 label=$4
 
-# Set path to input data
-datapath="/scr1/fantine/microseismic-detection-ml"
-eval_file="${datapath}/tfrecords/${dataset}/test-*.tfrecord.gz"
-ckpt="${datapath}/models/${job_id}/ckpt"
+# Check the datapath config file
+datapath_file=config/datapath.sh
+if [ ! -f "$datapath_file" ]; then
+  echo "Datapath config file not found: $datapath_file";
+  exit 1;
+fi
+
+# Set datapaths
+. "config/datapath.sh"
+eval_file="${DATAPATH}/tfrecords/${dataset}/test-*.tfrecord.gz"
+ckpt="${DATAPATH}/models/${job_id}/ckpt"
 
 # Check the ML model config file
 config_file=config/$model_config.sh
@@ -40,14 +49,13 @@ job_name=evaluate_${now}_${model_config}_${dataset}_${label}
 log_file="log/${job_name}.log"
 
 # Set package and module name
-package_path=trainer/
-module_name=trainer.evaluate
+package_path=ml_framework/
+module_name=ml_framework.evaluate
 
 # Run the job
-echo 'Running ML job in the background.'
+echo 'Running ML evaluation.'
 echo "Logging to file: $log_file"
 python -m $module_name \
 --job_dir=$ckpt \
 $MODULE_ARGS \
---eval_file=$eval_file \
-> $log_file 2>&1 &
+--eval_file=$eval_file 2>&1 | tee $log_file

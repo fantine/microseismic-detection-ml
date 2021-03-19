@@ -10,3 +10,6 @@
 [submodule "plot_utils"]
 	path = plot_utils
 	url = git@gitlab.com:fantine/plot-utils.git
+[submodule "containers"]
+	path = containers
+	url = git@gitlab.com:fantine/containers.git

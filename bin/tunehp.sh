@@ -8,8 +8,8 @@
 #            This should correspond to a configuration file named as follows:
 #            config/${model_config}.sh.
 # @param {dataset} Dataset identifier.
-#            Check the variables `datapath`, `train_file`, and `eval_file`,
-#            to ensure that this maps to the correct input data.
+#            Check the variables `train_file`, and `eval_file` in `bin/train.sh`
+#            to make sure that this maps to the correct data.
 
 # Get arguments
 model_config=$1

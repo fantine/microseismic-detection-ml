@@ -5,7 +5,6 @@ import os
 import random
 import re
 import sys
-from typing import Text
 
 import numpy as np
 import tensorflow as tf
@@ -24,8 +23,8 @@ class CompressionType(enum.Enum):
 
 
 _FILE_EXTENSION = {
-  CompressionType.GZIP: '.gz',
-  CompressionType.NONE: '',
+    CompressionType.GZIP: '.gz',
+    CompressionType.NONE: '',
 }
 
 
@@ -91,6 +90,7 @@ def create_manifest(manifest_file, file_pattern, shuffle=True):
     for filename in file_list:
       f.write(filename + '\n')
 
+
 def _get_datapath():
   regex_pattern = r'DATAPATH="(\S+)"'
   with open(_DATAPATH_FILE, 'r') as f:
@@ -98,7 +98,8 @@ def _get_datapath():
   regex_match = re.search(regex_pattern, datapath_text)
   if regex_match:
     return regex_match.group(1)
-  raise ValueError('Please set a correct datapath in {}'.format(_DATAPATH_FILE))
+  raise ValueError(
+      'Please set a correct datapath in {}'.format(_DATAPATH_FILE))
 
 
 def convert_to_tfrecords(params):
@@ -106,7 +107,8 @@ def convert_to_tfrecords(params):
   manifest_file = os.path.join(datapath, params.manifest_file)
   if not os.path.exists(manifest_file):
     logging.info('Creating manifest file: %s', manifest_file)
-    create_manifest(manifest_file, os.path.join(datapath, params.input_file_pattern))
+    create_manifest(manifest_file, os.path.join(
+        datapath, params.input_file_pattern))
   else:
     logging.info('Using the existing manifest file: %s', manifest_file)
 
@@ -128,6 +130,7 @@ def convert_to_tfrecords(params):
         inputs, outputs = data_loader.read(filename)
         tf_example = create_tf_example(inputs, outputs)
         writer.write(tf_example.SerializeToString())
+
 
 class ArgumentParser():
 
