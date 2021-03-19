@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# Run a ML model training job
+# Run a ML model prediction job
 #
-# e.g. bin/train.sh model_config dataset label
+# e.g. bin/predict.sh model_config dataset label
 #
 # @param {model_config} Name of ML model configuration to use.
 #            This should correspond to a configuration file named as follows:
 #            config/${model_config}.sh.
 # @param {dataset} Dataset identifier.
-#            Check the variables `datapath`, and `test_file`
-#            to ensure that this maps to the correct input data.
-# @param {job_id} Job name of the ML model to evaluate.
-#            Check the variable `ckpt` to ensure that this maps to the correct
-#            ML model checkpoint.
+#            Check the variable `test_file` to make sure that this maps to the
+#            correct data.
+# @param {job_id} Job ID of the ML model to evaluate.
+#            Check the variable `ckpt` to make sure that this maps to the 
+#            correct ML model checkpoint.
 # @param {label} Optional label to add to the job name.
 
 # Get arguments
@@ -21,7 +21,14 @@ dataset=$2
 job_id=$3
 label=$4
 
-# Set path to input data
+# Check the datapath config file
+datapath_file=config/datapath.sh
+if [ ! -f "$datapath_file" ]; then
+  echo "Datapath config file not found: $datapath_file";
+  exit 1;
+fi
+
+# Set datapaths
 . "config/datapath.sh"
 test_file="${DATAPATH}/continuous_data/${dataset}.npy"
 ckpt="${DATAPATH}/models/${job_id}/ckpt"
