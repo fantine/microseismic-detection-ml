@@ -40,7 +40,7 @@ You can run the project from an interactive bash session within the provided
 docker run --gpus all -it fantine/ml_framework:latest bash
 ```
 If you do not have root permissions to run Docker, [Singularity](https://singularity.lbl.gov) might be a good alternative for you. Refer to 
-[`containers/README.md`](containers/README.md) for more details.
+`containers/README.md` for more details.
 
 ## Folder structure
 
