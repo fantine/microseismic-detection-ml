@@ -40,7 +40,7 @@ You can run the project from an interactive bash session within the provided
 docker run --gpus all -it fantine/ml_framework:latest bash
 ```
 If you do not have root permissions to run Docker, [Singularity](https://singularity.lbl.gov) might be a good alternative for you. Refer to 
-`containers/README.md` for more details.
+[`containers/README.md`](containers/README.md) for more details.
 
 ## Folder structure
 
@@ -51,6 +51,7 @@ If you do not have root permissions to run Docker, [Singularity](https://singula
 Google Cloud Storage.
 - **log:** Directory for log files.
 - **ml_framework:** Machine learning framework.
+- **notebooks:** Jupyter notebooks.
 - **plot_utils:** Utility functions for making figures.
 - **tfrecords:** Utility functions for converting files to TFRecords.
 
@@ -61,7 +62,7 @@ running ML models.
 
 ### Set the datapath
 
-Set the `DATAPATH` variable inside `config/datapath.sh` to the data or scratch
+Set the `DATAPATH` variable inside `config/datapath.sh` to the data directory
 to which you want write data files.
 
 ### Train an ML model
@@ -73,7 +74,6 @@ bin/train.sh model_config dataset
 - `model_config`: Name of ML model configuration to use. This should correspond 
 to a configuration file named `config/model_config.sh`.
 - `dataset`: Dataset identifier. Check the variables `train_file` and `eval_file` in `bin/train.sh` to ensure that this maps to the correct data.
-- `label`: Optional label to add to the job name.
 
 ### Set ML model parameters
 The parameters for an ML task can be configured by creating a corresponding configuration file: `config/your_model_config.sh`. Look at other ML model
