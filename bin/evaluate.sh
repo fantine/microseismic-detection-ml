@@ -2,7 +2,7 @@
 
 # Run a ML model evaluation job
 #
-# e.g. bin/evaluate.sh model_config dataset label
+# e.g. bin/evaluate.sh model_config dataset job_id label
 #
 # @param {model_config} Name of ML model configuration to use.
 #            This should correspond to a configuration file named as follows:
