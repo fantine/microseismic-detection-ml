@@ -1,7 +1,5 @@
 manifest_file: tfrecords/manifests/baseline_eval_manifest.txt
 output_file_prefix: tfrecords/baseline/eval
-input_width: 712
-input_height: 196
 num_shards: 4
 min_val: -15.353061
 max_val: 15.353061
