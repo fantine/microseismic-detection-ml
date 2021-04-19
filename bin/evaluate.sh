@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Run a ML model evaluation job
+# Run ML model evaluation
 #
 # e.g. bin/evaluate.sh model_config dataset job_id label
 #

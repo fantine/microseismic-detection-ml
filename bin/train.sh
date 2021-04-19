@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Run a ML model training job
+# Run ML model training
 #
 # e.g. bin/train.sh model_config dataset label
 #

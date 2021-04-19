@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Run a ML model hyperparameter tuning job
+# Run ML model hyperparameter tuning
 #
 # e.g. bin/tunehp.sh model_config dataset label
 #

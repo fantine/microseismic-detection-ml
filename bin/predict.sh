@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Run a ML model prediction job
+# Run ML model prediction
 #
 # e.g. bin/predict.sh model_config dataset label
 #
@@ -30,7 +30,7 @@ fi
 
 # Set datapaths
 . "config/datapath.sh"
-test_file="${DATAPATH}/continuous_data/${dataset}.npy"
+test_file="${DATAPATH}/${dataset}/*"
 ckpt="${DATAPATH}/models/${job_id}/ckpt"
 
 # Check the ML model config file
