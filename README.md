@@ -1,4 +1,4 @@
-# Microseismic event detection using machine learning
+# Microseismic event detection on fiber-optic data using machine learning
 
 - **Author:** Fantine Huot
 
