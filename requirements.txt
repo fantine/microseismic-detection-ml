@@ -1,4 +1,4 @@
-tensorflow-gpu>=2.2.0
+tensorflow-gpu>=2.4.1
 GPyOpt==1.2.6
 h5py==2.10.0
 matplotlib==3.3.2
