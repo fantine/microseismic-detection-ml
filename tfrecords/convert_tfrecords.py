@@ -10,11 +10,10 @@ import numpy as np
 import tensorflow as tf
 import yaml
 
+from config import get_datapath
+
 
 random.seed(42)
-
-
-_DATAPATH_FILE = 'config/datapath.sh'
 
 
 class CompressionType(enum.Enum):
@@ -94,19 +93,8 @@ def create_manifest(manifest_file, file_pattern, shuffle=True):
       f.write(filename + '\n')
 
 
-def _get_datapath():
-  regex_pattern = r'DATAPATH="(\S+)"'
-  with open(_DATAPATH_FILE, 'r') as f:
-    datapath_text = f.read()
-  regex_match = re.search(regex_pattern, datapath_text)
-  if regex_match:
-    return regex_match.group(1)
-  raise ValueError(
-      'Please set a correct datapath in {}'.format(_DATAPATH_FILE))
-
-
 def convert_to_tfrecords(params):
-  datapath = _get_datapath()
+  datapath = get_datapath.get_datapath()
   manifest_file = os.path.join(datapath, params.manifest_file)
   if not os.path.exists(manifest_file):
     logging.info('Creating manifest file: %s', manifest_file)
