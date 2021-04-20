@@ -8,4 +8,5 @@ export MODULE_ARGS=" \
   --tfrecord_height=712 \
   --tfrecord_width=196 \
   --num_epochs=100 \
+  --overlap=0.9375 \
 "
