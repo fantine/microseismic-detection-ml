@@ -100,8 +100,9 @@ def _get_middle_channel(logits_file):
 def get_eventtimes(logits_files, data_files):
   overlap = 0.9375
   input_shape = (512, 128)
-  channel_threshold = 4
+  channel_threshold = 1
   n = 8
+  n_votes = 2
   dt = 1 / 500
   filename_pattern = '%Y%m%d_%H%M%S'
 
@@ -116,15 +117,26 @@ def get_eventtimes(logits_files, data_files):
     predictions = tf.round(tf.nn.sigmoid(logits)).numpy()
     predictions = predictions.reshape((len(range(0, n1 - w1 + 1, d1)), -1))
     end = n * int(predictions.shape[1] / n)
-    consolidated = np.min(predictions[:, :end].reshape(
-        predictions.shape[0], -1, n), axis=2)
+    # consolidated = np.min(predictions[:, :end].reshape(
+    #     predictions.shape[0], -1, n), axis=2)
+    predictions = predictions[:, :end].reshape(predictions.shape[0], -1, n)
+    consolidated = np.zeros((predictions.shape[0], predictions.shape[1]))
+    for i in range(predictions.shape[0]):
+      for j in range(predictions.shape[1]):
+        consolidated[i, j] = np.min(predictions[i, j, :n_votes])
     prediction_th = np.where(
         np.sum(consolidated, axis=0) >= channel_threshold)[0]
     prediction_th = (prediction_th * n * w2 * (1. - overlap) + w2 // 4)
     basename = os.path.basename(logits_file)
+    print('basename', basename)
     start_time = datetime.datetime.strptime(basename[:15], filename_pattern)
-    for sample in prediction_th:
+    print('file start', start_time)
+    for i, sample in enumerate(prediction_th):
+      if i == 0:
+        print('first sample', sample)
       eventtime = start_time + datetime.timedelta(seconds=sample * dt)
+      if i == 0:
+        print('first event time', eventtime)
       channel = _get_middle_channel(basename)
       entries.append((eventtime, channel))
   return entries
@@ -134,11 +146,13 @@ def convert_to_database(logits_files, data_files, raw_data_files, file_length, d
   eventtimes = get_eventtimes(logits_files, data_files)
   file_starttimes = _convert_filenames_to_datetimes(raw_data_files)
   entries = []
+  print('first eventtimes', eventtimes[0])
   for eventtime, channel in eventtimes:
     entry = convert_timestamp_to_entry(
         eventtime, channel, raw_data_files, file_starttimes, file_length, dt)
     if entry is not None:
       entries.append(entry)
+  print('first entry', entries[0])
   write_to_database(entries, database_file)
 
 
