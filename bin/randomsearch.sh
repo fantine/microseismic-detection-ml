@@ -1,47 +1,46 @@
 #!/bin/bash
 
-# Run hyperparameter tuning.
+# Run ML model random search
 #
-# e.g. $ tunehp.sh mlmodel
+# e.g. bin/randomsearch.sh model_config dataset label
 #
-# @param {model_config} Name of model to run (e.g. mlmodel)
-#                This should map to a config file named config/${model_config}.sh.
-# @param {job_config} Configuration of job (e.g. config_mlmodel)
-#                This should map to a config file named config/${config}.yaml.
-#                Defaults to config/config.yaml
-# @param {label} Optional label to add to the job ID
+# @param {model_config} Name of ML model configuration to use.
+#            This should correspond to a configuration file named as follows:
+#            config/${model_config}.sh.
+# @param {dataset} Dataset identifier.
+#            Check the variables `train_file`, and `eval_file` in `bin/train.sh`
+#            to make sure that this maps to the correct data.
 
-# Get params
+# Get arguments
 model_config=$1
 dataset=$2
-label=$3
 
-# Check config file
+# Check the ML model config file
 config_file=config/$model_config.sh
 if [ ! -f "$config_file" ]; then
-  echo "Config file not found: $config_file";
+  echo "ML model config file not found: $config_file";
   exit 1;
 fi
 
-hparams_config=config/hptuning/hp_$model_config.yaml
-if [ ! -f "$hparams_config" ]; then
-  echo "Config file not found: $hparams_config";
+hptuning_config=config/${model_config}_hptuning.yaml
+if [ ! -f "$hptuning_config" ]; then
+  echo "Hyperparameter tuning config file not found: $hptuning_config";
   exit 1;
 fi
 
-if [ -z "$dataset" ]; then
-  dataset=$default_dataset
-fi
-
-# Set job name and directory
+# Set job name
 now=$(date +%Y%m%d_%H%M%S)
-job_name=job_${now}_randomsearch_${model_config}_${dataset}_${label}
+job_name=randomsearch_${now}_${model_config}_${dataset}
+log_file="log/${job_name}.log"
 
+# Set package and module name
+package_path=hptuning/
+module_name=hptuning.random_search
 
-echo 'Running randomsearch locally in the background.'
-log_file="log/$job_name.log"
+echo 'Running random search job.'
 echo "Logging to file: $log_file"
-python hptuning/random_search.py \
-  --model_template=$model_config \
-  --hparams_config=$hparams_config \
-  --dataset=$dataset 2>&1 | tee $log_file
+python -m $module_name \
+  --model_config=$model_config \
+  --hptuning_config=$hptuning_config \
+  --dataset=$dataset \
+  --label=$now 2>&1 | tee $log_file
