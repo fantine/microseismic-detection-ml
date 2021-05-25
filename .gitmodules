@@ -13,3 +13,6 @@
 [submodule "containers"]
 	path = containers
 	url = git@gitlab.com:fantine/containers.git
+[submodule "processing_utils"]
+	path = processing_utils
+	url = git@gitlab.com:fantine/processing-utils.git
