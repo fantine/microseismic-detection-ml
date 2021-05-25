@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.INFO)
 
 def _process(data, clip_value, std_channels):
   data = np.clip(data, -clip_value, clip_value)
-  data = data / std_channels
+  data = data / np.expand_dims(std_channels, axis=1)
   return data
 
 
