@@ -48,11 +48,9 @@ If you do not have root permissions to run Docker, [Singularity](https://singula
 - **config:** Configuration files. 
 - **containers:** Details on how to use containers for this project. 
 - **docs:** Documentation.
-- **gcp_io:** Input/output utility functions to read or write on local disk and
 Google Cloud Storage.
 - **log:** Directory for log files.
 - **ml_framework:** Machine learning framework.
-- **plot_utils:** Utility functions for making figures.
 - **tfrecords:** Utility functions for converting files to TFRecords.
 
 ## Set the datapath for the project
