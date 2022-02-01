@@ -30,7 +30,7 @@ fi
 
 # Set datapaths
 . "config/datapath.sh"
-test_file="${DATAPATH}/${dataset}/*"
+test_file="${DATAPATH}/continuous_data/${dataset}*"
 ckpt="${DATAPATH}/models/${job_id}/ckpt"
 
 # Check the ML model config file
