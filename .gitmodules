@@ -1,18 +1,9 @@
-[submodule "gcp_io"]
-	path = gcp_io
-	url = git@gitlab.com:fantine/gcp-io.git
 [submodule "ml_framework"]
 	path = ml_framework
-	url = git@gitlab.com:fantine/ml-framework.git
+	url = git@github.com:fantine/ml-framework.git
 [submodule "hptuning"]
 	path = hptuning
-	url = git@gitlab.com:fantine/hptuning.git
-[submodule "plot_utils"]
-	path = plot_utils
-	url = git@gitlab.com:fantine/plot-utils.git
+	url = git@github.com:fantine/hptuning.git
 [submodule "containers"]
 	path = containers
-	url = git@gitlab.com:fantine/containers.git
-[submodule "processing_utils"]
-	path = processing_utils
-	url = git@gitlab.com:fantine/processing-utils.git
+	url = git@github.com:fantine/containers.git
