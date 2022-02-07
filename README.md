@@ -48,7 +48,6 @@ If you do not have root permissions to run Docker, [Singularity](https://singula
 - **config:** Configuration files. 
 - **containers:** Details on how to use containers for this project. 
 - **docs:** Documentation.
-Google Cloud Storage.
 - **log:** Directory for log files.
 - **ml_framework:** Machine learning framework.
 - **tfrecords:** Utility functions for converting files to TFRecords.
