@@ -7,3 +7,6 @@
 [submodule "containers"]
 	path = containers
 	url = git@github.com:fantine/containers.git
+[submodule "processing_utils"]
+	path = processing_utils
+	url = git@github.com:fantine/seismic-processing-utils.git
